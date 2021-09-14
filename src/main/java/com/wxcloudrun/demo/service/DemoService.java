@@ -7,12 +7,13 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -53,5 +54,15 @@ public class DemoService {
         Gson gson = new Gson();
         Map map = gson.fromJson(content, Map.class);
         return map;
+    }
+
+    @RequestMapping("/auth")
+    public Map auth(@RequestHeader Map<String, String> headers, @RequestHeader("x-wx-openid") String openid, @RequestHeader("x-wx-unionid") String unionid) throws Exception {
+        Map res = new HashMap(){{
+            put("headers", headers);
+            put("openid", openid);
+            put("unionid", unionid);
+        }};
+        return res;
     }
 }
