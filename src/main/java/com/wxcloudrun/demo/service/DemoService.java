@@ -57,7 +57,7 @@ public class DemoService {
     }
 
     @RequestMapping("/auth")
-    public Map auth(@RequestHeader Map<String, String> headers, @RequestHeader("x-wx-openid") String openid, @RequestHeader("x-wx-unionid") String unionid) throws Exception {
+    public Map auth(@RequestHeader Map<String, String> headers, @RequestHeader(value = "x-wx-openid", required = false) String openid, @RequestHeader(value = "x-wx-unionid", required = false) String unionid) throws Exception {
         Map res = new HashMap(){{
             put("headers", headers);
             put("openid", openid);
