@@ -56,8 +56,8 @@ public class DemoService {
         return map;
     }
 
-    @RequestMapping("/auth")
-    public Map auth(@RequestHeader Map<String, String> headers, @RequestHeader(value = "x-wx-openid", required = false) String openid, @RequestHeader(value = "x-wx-unionid", required = false) String unionid) throws Exception {
+    @RequestMapping("/apiTest")
+    public Map apiTest(@RequestHeader Map<String, String> headers, @RequestHeader(value = "x-wx-openid", required = false) String openid, @RequestHeader(value = "x-wx-unionid", required = false) String unionid) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         URI uri = new URIBuilder("https://api.weixin.qq.com/wxa/getwxadevinfo")
                 .build();
@@ -94,8 +94,8 @@ public class DemoService {
         return res;
     }
 
-    @RequestMapping("/apiTest")
-    public Map openapi(@RequestHeader Map<String, String> headers, @RequestHeader(value = "x-wx-openid", required = false) String openid, @RequestHeader(value = "x-wx-unionid", required = false) String unionid) throws Exception {
+    @RequestMapping("/auth")
+    public Map auth(@RequestHeader Map<String, String> headers, @RequestHeader(value = "x-wx-openid", required = false) String openid, @RequestHeader(value = "x-wx-unionid", required = false) String unionid) throws Exception {
         Map res = new HashMap(){{
             put("headers", headers);
             put("openid", openid);
