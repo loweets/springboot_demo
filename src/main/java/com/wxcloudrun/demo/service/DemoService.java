@@ -58,6 +58,44 @@ public class DemoService {
 
     @RequestMapping("/auth")
     public Map auth(@RequestHeader Map<String, String> headers, @RequestHeader(value = "x-wx-openid", required = false) String openid, @RequestHeader(value = "x-wx-unionid", required = false) String unionid) throws Exception {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        URI uri = new URIBuilder("https://api.weixin.qq.com/wxa/getwxadevinfo")
+                .build();
+
+        HttpGet httpGet = new HttpGet(uri);
+
+        CloseableHttpResponse response = null;
+        String seqid = "";
+        String content = "";
+        try {
+            response = httpclient.execute(httpGet);
+
+            if (response.getStatusLine().getStatusCode() == 200) {
+
+                seqid = response.getFirstHeader("x-openapi-seqid").getValue();
+                content = EntityUtils.toString(response.getEntity(), "UTF-8");
+                System.out.println("seqid：" + seqid);
+                System.out.println("response：" + content);
+            }
+        } finally {
+            if (response != null) {
+                response.close();
+            }
+            httpclient.close();
+        }
+
+        String finalContent = content;
+        String finalSeqid = seqid;
+        Map res = new HashMap(){{
+            put("openid", openid);
+            put("content", finalContent);
+            put("seqid", finalSeqid);
+        }};
+        return res;
+    }
+
+    @RequestMapping("/apiTest")
+    public Map openapi(@RequestHeader Map<String, String> headers, @RequestHeader(value = "x-wx-openid", required = false) String openid, @RequestHeader(value = "x-wx-unionid", required = false) String unionid) throws Exception {
         Map res = new HashMap(){{
             put("headers", headers);
             put("openid", openid);
